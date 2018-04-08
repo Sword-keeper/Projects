@@ -7,7 +7,7 @@ import gensim
 emotions = ['disgust', 'happy', 'sad', 'angry', 'fear', 'surprise']
 
 
-def get_inference(origin_pool):
+def get_inference(origin_pool, model):
     avg_score = sum([y for (x, y) in origin_pool]) / len(origin_pool)
     infer_pool = model.most_similar(positive=origin_pool, topn=5)
     infer_pool = [(x, y * avg_score) for (x, y) in infer_pool if y > 0.7]
@@ -36,7 +36,7 @@ if __name__ == '__main__':
 
     pool = [('tree', 1)]
 
-    infer = get_inference(pool)
+    infer = get_inference(pool,model)
     # infer = pool
     print(infer)
 

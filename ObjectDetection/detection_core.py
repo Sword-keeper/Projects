@@ -153,7 +153,7 @@ def quick_detection(path):
 
 
 def mongo_process():
-    conn = pymongo.MongoClient('127.0.0.1', 27017)
+    conn = pymongo.MongoClient('192.168.1.103', 27017)
     db = conn.flickr_db  # 连接flickr_db数据库，没有则自动创建
     set_name = 'sadness'
     emo_set = db[set_name]
@@ -169,7 +169,7 @@ def mongo_process():
         if os.path.exists(path):
             images[path] = id
 
-    print(f'total:{len(images.keys())}')
+    print('total:{}'.format(len(images.keys())))
     valid_count = 0
     statistics = {}
     for p in detector.run_detection(images.keys()):
@@ -186,7 +186,7 @@ def mongo_process():
                     statistics[class_x] = 1
         emo_set.update({'id': images[path]}, {'$set': {'objects_contained_oid': res}})
     print(sorted(statistics.items(), key=lambda item: item[1], reverse=True))
-    print(f'valid:{valid_count}')
+    print('valid:{}'.format(valid_count))
 
 
 if __name__ == '__main__':

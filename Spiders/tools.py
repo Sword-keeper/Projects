@@ -2,12 +2,32 @@ from urllib.parse import urlencode
 import requests
 import time
 from multiprocessing.pool import Pool
+
+from selenium.webdriver.chrome import webdriver
+from selenium.webdriver.chrome.options import Options
 from urllib3.exceptions import TimeoutError
 
 ENTRY_TIME = time.strftime("%Y/%m/%d %H:%M:%S", time.localtime())
 DOWNLOAD_LOG_ON = False
 MONGO_LOG_ON = False
 MULTIPROCESS_LOG_ON = False
+
+
+class WebDriver:
+    driver = None
+
+    @property
+    def _init_driver(self):
+        chrome_options = Options()
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--disable-gpu')
+        return webdriver.WebDriver(chrome_options=chrome_options)
+
+    def __init__(self):
+        self.driver = self._init_driver
+
+    def get(self, url):
+        self.driver.get(url)
 
 
 def download(param=None, url=None, file_path=None):

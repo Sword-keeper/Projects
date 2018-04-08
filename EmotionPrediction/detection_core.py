@@ -24,11 +24,11 @@ class ObjectDetector:
     DOWNLOAD_BASE = 'http://download.tensorflow.org/models/object_detection/'
 
     # Path to frozen detection graph. This is the actual model that is used for the object detection.
-    PATH_TO_CKPT = MODEL_NAME + '/frozen_inference_graph.pb'
+    PATH_TO_CKPT = 'lib/' + MODEL_NAME + '/frozen_inference_graph.pb'
 
     # List of the strings that is used to add correct label for each box.
     # PATH_TO_LABELS = os.path.join('data', 'mscoco_label_map.pbtxt')
-    PATH_TO_LABELS = os.path.join('label_map_data', 'oid_bbox_trainable_label_map.pbtxt')
+    PATH_TO_LABELS = os.path.join('lib/label_map_data', 'oid_bbox_trainable_label_map.pbtxt')
     NUM_CLASSES = 545
 
     # Size, in inches, of the output images.
@@ -156,7 +156,8 @@ if __name__ == '__main__':
 
     # emotion distribution
     print('loading word2vec...')
-    model = gensim.models.KeyedVectors.load_word2vec_format('GoogleNews_slim/GoogleNews-vectors-negative300-SLIM.bin',
+    model = gensim.models.KeyedVectors.load_word2vec_format('lib/GoogleNews_slim/GoogleNews-vectors-negative300-SLIM'
+                                                            '.bin',
                                                             binary=True)
     print('done.')
     emotions = ['disgust', 'happy', 'sad', 'angry', 'fear', 'surprise']
