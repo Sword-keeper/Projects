@@ -6,7 +6,8 @@ emotions = ['sad', 'happy', 'angry', 'fear', 'disgust', 'surprise']
 
 if __name__ == '__main__':
 
-    model = gensim.models.KeyedVectors.load_word2vec_format('GoogleNews-vectors-negative300-SLIM.bin', binary=True)
+    # model = gensim.models.KeyedVectors.load_word2vec_format('GoogleNews-vectors-negative300-SLIM.bin', binary=True)
+    model = gensim.models.Word2Vec.load('data/model/word2vec_gensim')
 
     emo_dir = {}
     for em in emotions:
@@ -20,7 +21,7 @@ if __name__ == '__main__':
 
     for sentence in sentences:
         print(sentence)
-        words = sentence.replace(',','').replace('.', '').replace('!', '').split(' ')
+        words = sentence.replace(',', '').replace('.', '').replace('!', '').split(' ')
         print(words)
         for word in words:
             found = False

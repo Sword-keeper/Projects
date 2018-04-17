@@ -7,8 +7,7 @@ from nltk.corpus import wordnet
 # r-副词
 
 if __name__ == '__main__':
-    x = wordnet.synsets('seal')[1]
+    x = wordnet.synsets('seal')
     print(x)
-    y = wordnet.synsets('me')[-1]
-    dis = x.shortest_path_distance(y)
-    print(dis)
+    y = wordnet.synsets('me')
+    print(y)

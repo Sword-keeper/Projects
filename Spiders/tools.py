@@ -3,9 +3,12 @@ import requests
 import time
 from multiprocessing.pool import Pool
 
-from selenium.webdriver.chrome import webdriver
+from selenium import webdriver
+from selenium.webdriver import DesiredCapabilities
 from selenium.webdriver.chrome.options import Options
 from urllib3.exceptions import TimeoutError
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
 
 ENTRY_TIME = time.strftime("%Y/%m/%d %H:%M:%S", time.localtime())
 DOWNLOAD_LOG_ON = False
@@ -16,18 +19,25 @@ MULTIPROCESS_LOG_ON = False
 class WebDriver:
     driver = None
 
-    @property
-    def _init_driver(self):
-        chrome_options = Options()
-        chrome_options.add_argument('--headless')
-        chrome_options.add_argument('--disable-gpu')
-        return webdriver.WebDriver(chrome_options=chrome_options)
+    @staticmethod
+    def _init_driver(driver_type):
+        if 'chrome' in driver_type:
+            chrome_options = Options()
+            if 'headless' in driver_type:
+                chrome_options.add_argument('--headless')
+            # chrome_options.add_argument('--disable-gpu')
+            return webdriver.Chrome(chrome_options=chrome_options)
+        if 'phantomjs' in driver_type:
+            dcap = dict(DesiredCapabilities.PHANTOMJS)  # 设置userAgent
+            dcap["phantomjs.page.settings.userAgent"] = (
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:25.0) Gecko/20100101 Firefox/25.0 ")
+            return webdriver.PhantomJS(desired_capabilities=dcap)
+        print('ERR : unknown driver')
+        return None
 
-    def __init__(self):
-        self.driver = self._init_driver
-
-    def get(self, url):
-        self.driver.get(url)
+    def __init__(self, driver_type='chrome-headless'):
+        self.driver = self._init_driver(driver_type.lower())
+        self.driver.implicitly_wait(10)
 
 
 def download(param=None, url=None, file_path=None):

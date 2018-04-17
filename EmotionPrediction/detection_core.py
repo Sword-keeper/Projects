@@ -145,7 +145,7 @@ if __name__ == '__main__':
 
     # object detection
     print('predicting...')
-    res = quick_detection('data/catndog.jpg', detector=detector)
+    res = quick_detection('data/halloween.jpg', detector=detector)
     print('done.')
     print(f'detection res:{res}')
     # res = [('Dog', 0.816116213798523)]
@@ -156,9 +156,10 @@ if __name__ == '__main__':
 
     # emotion distribution
     print('loading word2vec...')
-    model = gensim.models.KeyedVectors.load_word2vec_format('lib/GoogleNews_slim/GoogleNews-vectors-negative300-SLIM'
-                                                            '.bin',
-                                                            binary=True)
+    # model = gensim.models.KeyedVectors.load_word2vec_format('lib/GoogleNews_slim/GoogleNews-vectors-negative300-SLIM'
+    #                                                         '.bin',
+    #                                                         binary=True)
+    model = gensim.models.Word2Vec.load('lib/wikipedia/word2vec_gensim')
     print('done.')
     emotions = ['disgust', 'happy', 'sad', 'angry', 'fear', 'surprise']
     distribution = {}
